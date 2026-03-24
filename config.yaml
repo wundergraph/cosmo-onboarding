@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/wundergraph/cosmo/main/router/pkg/config/config.schema.json
+
+version: "1"
+
+listen_addr: 0.0.0.0:3002
+
+dev_mode: true
+
+execution_config:
+  file:
+    watch: true
+    watch_interval: 1s
+    path: config.json
+
+plugins:
+  enabled: true
+  path: plugins

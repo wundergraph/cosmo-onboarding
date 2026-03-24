@@ -1,0 +1,46 @@
+"""
+The code that specifies the denomination
+"""
+enum CURRENCY_CODE {
+  USD
+  EUR
+}
+
+"""
+Describes the price of a product
+"""
+type Price {
+  currency: CURRENCY_CODE!
+  amount: Float!
+}
+
+"""
+Specifies to which category the product belongs
+"""
+enum ProductCategory {
+  ALL
+  GIFT_CARDS
+  ELECTRONICS
+  CAMERA_N_PHOTO
+  VIDEO_GAMES
+  BOOKS
+  CLOTHING
+}
+
+"""
+Entity describing a product
+"""
+type Product @key(fields: "id") {
+  id: ID!
+  title: String!
+  description: String
+  price: Price!
+  category: ProductCategory
+}
+
+type Query {
+  """
+  Get a product using its id
+  """
+  product(id: ID!): Product
+}

@@ -28,3 +28,27 @@ WunderGraph Cosmo is a comprehensive Lifecycle API Management platform tailored 
 ## Onboarding
 
 This repository hosts a configuration for [Cosmo Router](https://github.com/wundergraph/cosmo/tree/main/router) and sample applications, which provide a way to get yourself familiar with GraphQL federation and the Cosmo Cloud platform.
+
+## Quickstart
+
+By default, the router runs on port `3002`.
+
+1. `docker run --rm -p 3002:3002 cosmo-demo`
+2. Execute example query via `cURL`:
+
+```shell
+curl -s -X POST http://localhost:3002/graphql -H 'Content-Type: application/json' -d '{"query":"query GetProductWithReviews($id: ID\u0021) { product(id: $id) { id title price { currency amount } reviews { id author rating contents } } }","variables":{"id":"1"}}'
+```
+
+## Development
+
+Make sure you have [make](https://www.gnu.org/software/make/) and [pnpm](https://pnpm.io/) installed.
+
+1. Run `pnpm install` to pull down the dependencies
+2. Run `make start` to build and run the router image.
+
+Some other make tasks:
+
+* `make build` - build plugins and router configuration
+* `make compose` - generate router execution config
+* `make docker` - build a docker image

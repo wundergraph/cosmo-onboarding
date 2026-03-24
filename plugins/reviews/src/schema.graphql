@@ -1,0 +1,23 @@
+"""
+Review entity
+"""
+type Review {
+  id: ID!
+  author: String!
+  email: String!
+  createdOn: Int!
+  contents: String
+  rating: Int!
+}
+
+"""
+Entity describing a product with reviews
+"""
+type Product @key(fields: "id") {
+  id: ID!
+  reviews: [Review]
+}
+
+type Query {
+  review(id: ID!): Review
+}

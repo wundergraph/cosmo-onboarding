@@ -1,0 +1,5 @@
+packages:
+  - plugins/*
+
+catalog:
+  wgc: ^0.112.2

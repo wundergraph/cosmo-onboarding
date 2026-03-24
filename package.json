@@ -1,0 +1,20 @@
+{
+  "name": "cosmo-onboarding",
+  "version": "0.0.1",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "pnpm -r build",
+    "compose": "wgc router compose -i ./plugins/graph.yaml -o ./config.json",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "pnpm build && pnpm compose && make docker && docker run --rm -p 3002:3002 cosmo-demo"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.29.3",
+  "dependencies": {
+    "wgc": "catalog:"
+  }
+}

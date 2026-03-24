@@ -1,0 +1,16 @@
+{
+  "name": "cosmo-onboarding-products",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Example Cosmo plugin application for products subgraph",
+  "scripts": {
+    "build": "wgc router plugin build . --debug",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+     "wgc": "catalog:"
+  }
+}

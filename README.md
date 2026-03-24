@@ -9,7 +9,7 @@
 
 <p align="center">
   <a href="https://cosmo-docs.wundergraph.com/getting-started/cosmo-cloud-onboarding"><strong>Quickstart</strong></a> ·
-  <a href="/examples"><strong>Examples</strong></a> ·
+  <a href="https://github.com/wundergraph/cosmo/tree/main/examples"><strong>Examples</strong></a> ·
   <a href="https://cosmo-docs.wundergraph.com"><strong>Docs</strong></a> ·
   <a href="https://cosmo-docs.wundergraph.com/cli"><strong>CLI</strong></a> ·
   <a href="https://wundergraph.com/discord"><strong>Community</strong></a> ·

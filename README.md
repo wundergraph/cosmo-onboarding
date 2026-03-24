@@ -44,6 +44,13 @@ curl -s -X POST http://localhost:3002/graphql -H 'Content-Type: application/json
 
 Make sure you have [make](https://www.gnu.org/software/make/) and [pnpm](https://pnpm.io/) installed.
 
+This project uses `pnpm@10.29.3` (defined in `packageManager`). The easiest way to get the right version is via [Corepack](https://nodejs.org/api/corepack.html), which ships with Node.js:
+
+```shell
+corepack enable
+corepack install
+```
+
 1. Run `pnpm install` to pull down the dependencies
 2. Run `make start` to build and run the router image.
 

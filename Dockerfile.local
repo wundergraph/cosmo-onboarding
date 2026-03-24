@@ -2,6 +2,11 @@ FROM ghcr.io/wundergraph/cosmo/router:latest
 
 ENV DEV_MODE=true
 ENV LISTEN_ADDR=0.0.0.0:3002
+ENV LOG_LEVEL=debug
+ENV CONTROLPLANE_URL=http://host.docker.internal:3001
+ENV CDN_URL=http://host.docker.internal:11000
+ENV DEFAULT_TELEMETRY_ENDPOINT=http://host.docker.internal:4318
+ENV GRAPHQL_METRICS_COLLECTOR_ENDPOINT=http://host.docker.internal:4005
 
 # Copy the router configuration
 COPY config.yaml /app/config.yaml

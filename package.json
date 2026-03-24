@@ -8,7 +8,7 @@
     "build": "pnpm -r build",
     "compose": "wgc router compose -i ./plugins/graph.yaml -o ./config.json",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "pnpm build && pnpm compose && make docker && docker run --rm -p 3002:3002 cosmo-demo"
+    "start": "pnpm build && pnpm compose && make docker-local && docker run --rm -p 3002:3002 cosmo-demo-local"
   },
   "keywords": [],
   "author": "",

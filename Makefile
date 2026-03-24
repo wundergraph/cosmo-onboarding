@@ -18,5 +18,13 @@ docker:
 	@$(MAKE) -C plugins/reviews build-linux
 	docker build -t cosmo-demo .
 
+# Build linux plugin binary + Docker image (run `make compose` first if config.json is missing)
+# for local development
+# Usage: make docker-local
+docker-local:
+	@$(MAKE) -C plugins/products build-linux
+	@$(MAKE) -C plugins/reviews build-linux
+	docker build -f Dockerfile.local -t cosmo-demo-local .
+
 start:
 	@pnpm start

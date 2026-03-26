@@ -48,7 +48,7 @@ The command then runs the official Cosmo Router Docker image, which connects to 
 
 Run `wgc demo` and make sure you are logged in to your Cosmo Cloud account. Follow the instructions in the web application and CLI.
 
-**Implementing `averageRating` field**
+### Implementing `averageRating` field
 
 1. Fork this repo.
 2. Add `ROUTER_TOKEN` to your CI secrets (TBD - Github workflow)

@@ -46,7 +46,40 @@ The command then runs the official Cosmo Router Docker image, which connects to 
 
 ## Quickstart
 
-🚧 TBD
+Run `wgc demo` and make sure you are logged in to your Cosmo Cloud account. Follow the instructions in the web application and CLI.
+
+**Implementing `averageRating` field**
+
+1. Fork this repo.
+2. Add `ROUTER_TOKEN` to your CI secrets (TBD - Github workflow)
+3. In `plugins/reviews/src/schema.graphql` expand the schema file:
+
+```diff
+@@ -16,6 +16,7 @@ Entity describing a product with reviews
+ type Product @key(fields: "id") {
+   id: ID!
+   reviews: [Review]
++  averageRating: Float
+ }
+```
+
+4. Run `make generate` in `plugins/reviews` directory to generate gRPC methods.
+5. Add the new field `AverageRating` to the `Product` struct, using `calculateAverageRating` function that is provided:
+
+```diff
+@@ -62,6 +62,7 @@ func (s *ReviewsService) LookupProductById(ctx context.Context, req *service.Loo
+                                        Items: items,
+                                },
+                        },
++                       AverageRating: wrapperspb.Double(calculateAverageRating(items)),
+                }
+        }
+        return &service.LookupProductByIdResponse{Result: result}, nil
+```
+
+6. Create a pull request in your fork. Ensure checks pass.
+7. Merging the pull request will publish new version of the schema and plugin to Cosmo Cloud Plugin Registry.
+8. Query the new field! 🎉
 
 ## Development
 

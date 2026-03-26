@@ -3,3 +3,7 @@ packages:
 
 catalog:
   wgc: ^0.112.2
+
+onlyBuiltDependencies:
+  - core-js
+  - protobufjs

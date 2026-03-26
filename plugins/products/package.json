@@ -5,11 +5,14 @@
   "description": "Example Cosmo plugin application for products subgraph",
   "scripts": {
     "build": "wgc router plugin build . --debug",
+    "build:ci": "wgc router plugin build . --debug --yes",
     "build-linux": "CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o bin/linux_arm64 ./src",
     "format": "gofmt -w ./src",
     "generate": "wgc router plugin generate .",
     "lint": "golangci-lint run ./...",
-    "test": "wgc router plugin test ."
+    "lint:ci": "golangci-lint run --allow-parallel-runners ./...",
+    "test": "wgc router plugin test .",
+    "test:ci": "wgc router plugin test . --yes"
   },
   "keywords": [],
   "author": "",

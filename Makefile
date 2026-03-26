@@ -1,10 +1,14 @@
-.PHONY: build compose docker format lint
+.PHONY: build compose docker format lint lint-ci
 
 make: build
 
 # Runs build recursively
 build:
 	@pnpm build
+
+# Runs build for CI (serial mode)
+build-ci:
+	@pnpm build:ci
 
 # Generate router execution config (required before building Docker image or running the router)
 # Usage: make compose
@@ -26,6 +30,10 @@ generate:
 test:
 	@pnpm test
 
+# Test all plugins in CI (serial mode)
+test-ci:
+	@pnpm test:ci
+
 start:
 	@pnpm start
 
@@ -36,3 +44,7 @@ format:
 # Lint Go source in all plugins
 lint:
 	@pnpm -r lint
+
+# Lint Go source in all plugins (CI, allows parallel runners)
+lint-ci:
+	@pnpm lint:ci

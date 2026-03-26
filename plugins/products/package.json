@@ -5,6 +5,8 @@
   "description": "Example Cosmo plugin application for products subgraph",
   "scripts": {
     "build": "wgc router plugin build . --debug",
+    "format": "gofmt -w ./src",
+    "lint": "golangci-lint run ./...",
     "test": "wgc router plugin test ."
   },
   "keywords": [],

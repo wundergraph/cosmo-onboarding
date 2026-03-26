@@ -1,5 +1,5 @@
 
-.PHONY: build build-linux test generate install-wgc
+.PHONY: build build-linux format lint test generate install-wgc
 
 install-wgc:
 	@which wgc > /dev/null 2>&1 || npm install -g wgc@latest
@@ -20,3 +20,9 @@ build: install-wgc
 
 build-linux:
 	CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o bin/linux_arm64 ./src
+
+format:
+	gofmt -w ./src
+
+lint:
+	golangci-lint run ./...

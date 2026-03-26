@@ -1,4 +1,4 @@
-.PHONY: build compose docker
+.PHONY: build compose docker format lint
 
 make: build
 
@@ -32,3 +32,13 @@ test:
 
 start:
 	@pnpm start
+
+# Format Go source in all plugins
+format:
+	@$(MAKE) -C plugins/products format
+	@$(MAKE) -C plugins/reviews format
+
+# Lint Go source in all plugins
+lint:
+	@$(MAKE) -C plugins/products lint
+	@$(MAKE) -C plugins/reviews lint

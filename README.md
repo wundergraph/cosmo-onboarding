@@ -27,33 +27,38 @@ WunderGraph Cosmo is a comprehensive Lifecycle API Management platform tailored 
 
 ## Onboarding
 
-This repository hosts a configuration for [Cosmo Router](https://github.com/wundergraph/cosmo/tree/main/router) and sample applications, which provide a way to get yourself familiar with GraphQL federation and the Cosmo Cloud platform.
+This repository stores demo subgraphs in a form of [Cosmo Router Plugins](https://cosmo-docs.wundergraph.com/router/gRPC/plugins). These subgraphs are used for onboarding you to Cosmo platform with `wgc demo` command.
+
+The subgraphs model a part of fictional e-commerce business with Product and Review entities. The federated graph is consisted of queries and federated entities that looks like this:
+
+<p align="center">
+    <img width="450" src="./docs/assets/graph.png"/>
+</p>
+
+The root query exposes `product(id: ID!): Product` and `review(id: ID!): Review` queries, with `reviews` subgraph contributing to `Product` type an additional field `reviews: [Review]` to provide list of reviews for the product.
+
+<details>
+    <summary>⚙️How does it work under the hood?</summary>
+
+    The `demo` command fetches the `plugins/` folder during its setup phase. The command then publishes these plugins to [Cosmo Cloud Plugin Registry](https://cosmo-docs.wundergraph.com/router/gRPC/plugins#cosmo-cloud-plugin-registry). By publishing the plugins, the subgraphs are created into a pre-defined federated graph.
+    The command will run the official Cosmo Router docker image which is connected to the registry and it will pull down these published plugins and run them, so the queries can be resolved with mocked data.
+</details>
 
 ## Quickstart
 
-By default, the router runs on port `3002`.
-
-1. `docker run --rm -p 3002:3002 <TBD>` 🚧 official image pending
-2. Execute example query via `cURL`:
-
-```shell
-curl -s -X POST http://localhost:3002/graphql -H 'Content-Type: application/json' -d '{"query":"query GetProductWithReviews($id: ID\u0021) { product(id: $id) { id title price { currency amount } reviews { id author rating contents } } }","variables":{"id":"1"}}'
-```
+🚧 TBD
 
 ## Development
 
-Make sure you have [make](https://www.gnu.org/software/make/) and [pnpm](https://pnpm.io/) installed.
+### Prerequisites
 
+Make sure you have [make](https://www.gnu.org/software/make/) and [pnpm](https://pnpm.io/) installed.
 This project uses `pnpm@10.29.3` (defined in `packageManager`). The easiest way to get the right version is via [Corepack](https://nodejs.org/api/corepack.html), which ships with Node.js:
 
 ```shell
 corepack enable
 corepack install
 ```
-
-> [!NOTE]
-> The image is built with name `cosmo-demo-local`, it is intended to run against local instance of Cosmo platform.
-> See more information on [how to develop Cosmo platform locally](https://github.com/wundergraph/cosmo/blob/main/CONTRIBUTING.md#local-development)
 
 1. Run `pnpm install` to pull down the dependencies
 2. Run `make start` to build and run the router image.
@@ -66,27 +71,36 @@ curl -s -X POST http://localhost:3002/graphql -H 'Content-Type: application/json
 
 ### Local development with Cosmo
 
-1. Build the image `make docker-local`
-2. Have Cosmo platform running locally by [following the contribution documentation](https://github.com/wundergraph/cosmo/blob/main/CONTRIBUTING.md#local-development)
-3. Create federated graph ([documentation](https://cosmo-docs.wundergraph.com/cli/federated-graph/create)): `pnpm wgc federated-graph create --routing-url http://localhost:3002/graphql onboarding`
-4. Create subgraphs ([documentation](https://cosmo-docs.wundergraph.com/cli/subgraph/create)):
+This workflow is useful if you want to test the plugins against local instance of Cosmo platform.
+See more information on [how to develop Cosmo platform locally](https://github.com/wundergraph/cosmo/blob/main/CONTRIBUTING.md#local-development)
+
+Do these steps in the directory where you cloned `wundergraph/cosmo`:
+
+1. Run Cosmo platform
+2. Create federated graph ([documentation](https://cosmo-docs.wundergraph.com/cli/federated-graph/create)): `pnpm wgc federated-graph create --routing-url http://localhost:3002/graphql onboarding`
+3. Create subgraphs ([documentation](https://cosmo-docs.wundergraph.com/cli/subgraph/create)):
 
 ```shell
 pnpm wgc subgraph create --routing-url http://localhost:3002/graphql products
 pnpm wgc subgraph create --routing-url http://localhost:3002/graphql reviews
 ```
 
-5. Publish the subgraphs ([documentation](https://cosmo-docs.wundergraph.com/cli/subgraph/publish)):
+4. Publish the subgraphs ([documentation](https://cosmo-docs.wundergraph.com/cli/subgraph/publish)). Replace `<cosmo-onboarding-repo-path>` with a relative path to directory where you cloned this repo:
 
 ```shell
-pnpm wgc subgraph publish products --schema <path-to-cloned-repository>/plugins/products/src/schema.graphql
-pnpm wgc subgraph publish reviews --schema <path-to-cloned-repository>/plugins/reviews/src/schema.graphql
+pnpm wgc subgraph publish products --schema <cosmo-onboarding-repo-path>/plugins/products/src/schema.graphql
+pnpm wgc subgraph publish reviews --schema <cosmo-onboarding-repo-path>/plugins/reviews/src/schema.graphql
 ```
 
-6. Run this image alongside local instance(s) of Cosmo services with provided `<token>` ([documentation](https://cosmo-docs.wundergraph.com/getting-started/cosmo-cloud-onboarding#create-a-router-token)):
+5. Create a [router token](https://cosmo-docs.wundergraph.com/getting-started/cosmo-cloud-onboarding#create-a-router-token) and store it in a secure place.
+
+Do these steps in the directory where you _this_ repository:
+
+1. Build the image `make docker-local`
+2. Run the image, replace `<token>` with the token you generated in step 5 in the previous section.
 
 ```shell
-docker run --rm -p 3002:3002 -e GRAPH_API_TOKEN=<token> -e LOG_LEVEL=info cosmo-demo
+docker run --rm -p 3002:3002 -e GRAPH_API_TOKEN=<token> -e LOG_LEVEL=info cosmo-demo-local
 ```
 
 Some other make tasks:

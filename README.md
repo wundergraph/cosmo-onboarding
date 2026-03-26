@@ -64,7 +64,7 @@ Run `wgc demo` and make sure you are logged in to your Cosmo Cloud account. Foll
 ```
 
 4. Run `make generate` in `plugins/reviews` directory to generate gRPC methods.
-5. Add the new field `AverageRating` to the `Product` struct, using `calculateAverageRating` function that is provided:
+5. Add the new field `AverageRating` to the `Product` struct in `plugins/reviews/src/main.go`. Use the `calculateAverageRating` function that is provided to implement the calculation:
 
 ```diff
 @@ -62,6 +62,7 @@ func (s *ReviewsService) LookupProductById(ctx context.Context, req *service.Loo

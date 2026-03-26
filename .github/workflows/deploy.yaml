@@ -1,0 +1,17 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      COSMO_API_KEY: ${{ secrets.COSMO_API_KEY }}
+    steps:
+     - uses: actions/checkout@v6.0.2
+     - uses: ./.github/actions/setup
+     - run: make check-subgraphs
+     - run: make publish-ci

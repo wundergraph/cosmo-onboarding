@@ -26,6 +26,9 @@ docker-local:
 generate:
 	@pnpm generate
 
+publish-ci:
+	@pnpm publish:ci
+
 # Test all plugins
 test:
 	@pnpm test

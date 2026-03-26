@@ -12,17 +12,17 @@ import (
 )
 
 func main() {
-  pl, err := routerplugin.NewRouterPlugin(func(s *grpc.Server) {
-    s.RegisterService(&service.ProductsService_ServiceDesc, &ProductsService{
-      products: fixtures,
-    })
-  }, routerplugin.WithTracing())
+	pl, err := routerplugin.NewRouterPlugin(func(s *grpc.Server) {
+		s.RegisterService(&service.ProductsService_ServiceDesc, &ProductsService{
+			products: fixtures,
+		})
+	}, routerplugin.WithTracing())
 
-  if err != nil {
-    log.Fatalf("failed to create router plugin: %v", err)
-  }
+	if err != nil {
+		log.Fatalf("failed to create router plugin: %v", err)
+	}
 
-  pl.Serve()
+	pl.Serve()
 }
 
 type ProductsService struct {

@@ -15,6 +15,9 @@ build-ci:
 compose:
 	@pnpm compose
 
+check-subgraphs:
+	@pnpm subgraphs:check
+
 # Build linux plugin binary + Docker image (run `make compose` first if config.json is missing)
 # for local development
 # Usage: make docker-local

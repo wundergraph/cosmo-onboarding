@@ -8,6 +8,7 @@
     "build": "pnpm -r build",
     "build:ci": "pnpm -r --workspace-concurrency=1 build:ci",
     "compose": "wgc router compose -i ./plugins/graph.yaml -o ./config.json",
+    "subgraphs:check": "pnpm -r subgraph:check",
     "format": "pnpm -r format",
     "generate": "pnpm -r generate",
     "lint": "pnpm -r lint",

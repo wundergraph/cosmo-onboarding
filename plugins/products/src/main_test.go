@@ -28,14 +28,14 @@ func setupTestService(t *testing.T, products []service.Product) *testService {
 
 	go func() {
 		if err := grpcServer.Serve(lis); err != nil {
-			t.Fatalf("failed to serve: %v", err)
+			t.Logf("failed to serve: %v", err)
 		}
 	}()
 
 	dialer := func(context.Context, string) (net.Conn, error) {
 		return lis.Dial()
 	}
-	conn, err := grpc.Dial(
+	conn, err := grpc.NewClient(
 		"passthrough:///bufnet",
 		grpc.WithContextDialer(dialer),
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
@@ -46,7 +46,7 @@ func setupTestService(t *testing.T, products []service.Product) *testService {
 		grpcConn: conn,
 		client:   service.NewProductsServiceClient(conn),
 		cleanup: func() {
-			conn.Close()
+			_ = conn.Close()
 			grpcServer.Stop()
 		},
 	}
@@ -104,7 +104,7 @@ func TestQueryProduct(t *testing.T) {
 }
 
 func TestQueryProductInjectedFixtures(t *testing.T) {
-	single := []service.Product{testProducts[0]}
+	single := testProducts[0:1]
 	svc := setupTestService(t, single)
 	defer svc.cleanup()
 

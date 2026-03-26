@@ -31,10 +31,9 @@ type ProductsService struct {
 }
 
 func (s *ProductsService) QueryProduct(ctx context.Context, req *service.QueryProductRequest) (*service.QueryProductResponse, error) {
-	for _, p := range s.products {
-		if p.Id == req.Id {
-			product := p
-			return &service.QueryProductResponse{Product: &product}, nil
+	for i := range s.products {
+		if s.products[i].Id == req.Id {
+			return &service.QueryProductResponse{Product: &s.products[i]}, nil
 		}
 	}
 	return &service.QueryProductResponse{}, nil

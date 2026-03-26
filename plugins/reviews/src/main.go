@@ -33,10 +33,9 @@ type ReviewsService struct {
 }
 
 func (s *ReviewsService) QueryReview(ctx context.Context, req *service.QueryReviewRequest) (*service.QueryReviewResponse, error) {
-	for _, r := range s.reviews {
-		if r.Id == req.Id {
-			review := r
-			return &service.QueryReviewResponse{Review: &review}, nil
+	for i := range s.reviews {
+		if s.reviews[i].Id == req.Id {
+			return &service.QueryReviewResponse{Review: &s.reviews[i]}, nil
 		}
 	}
 	return &service.QueryReviewResponse{}, nil

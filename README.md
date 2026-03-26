@@ -52,7 +52,7 @@ The command then runs the official Cosmo Router Docker image, which connects to 
 
 ### Prerequisites
 
-Make sure you have [make](https://www.gnu.org/software/make/) and [pnpm](https://pnpm.io/) installed.
+Make sure you have [make](https://www.gnu.org/software/make/) and [pnpm](https://pnpm.io/) installed. You will also need a Go toolchain, ideally with [golangci-lint](https://golangci-lint.run/) as well.
 This project uses `pnpm@10.29.3` (defined in `packageManager`). The easiest way to get the right version is via [Corepack](https://nodejs.org/api/corepack.html), which ships with Node.js:
 
 ```shell

@@ -13,6 +13,7 @@
     "lint": "pnpm -r lint",
     "lint:ci": "pnpm -r lint:ci",
     "test": "pnpm -r test",
+    "test:ci": "pnpm -r --workspace-concurrency=1 test:ci",
     "start": "pnpm build && pnpm compose && make docker-local && docker run --rm -p 3002:3002 cosmo-demo-local"
   },
   "keywords": [],

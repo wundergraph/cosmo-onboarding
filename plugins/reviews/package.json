@@ -11,7 +11,8 @@
     "generate": "wgc router plugin generate .",
     "lint": "golangci-lint run ./...",
     "lint:ci": "golangci-lint run --allow-parallel-runners ./...",
-    "test": "wgc router plugin test ."
+    "test": "wgc router plugin test .",
+    "test:ci": "wgc router plugin test . --yes"
   },
   "keywords": [],
   "author": "",

@@ -30,6 +30,10 @@ generate:
 test:
 	@pnpm test
 
+# Test all plugins in CI (serial mode)
+test-ci:
+	@pnpm test:ci
+
 start:
 	@pnpm start
 

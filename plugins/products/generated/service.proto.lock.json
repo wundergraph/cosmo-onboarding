@@ -1,0 +1,101 @@
+{
+  "version": "1.0.0",
+  "messages": {
+    "Query": {
+      "fields": {
+        "product": 2
+      },
+      "reservedNumbers": [
+        1
+      ]
+    },
+    "QueryHelloRequest": {
+      "fields": {
+        "name": 1
+      }
+    },
+    "QueryHello": {
+      "fields": {
+        "name": 1
+      }
+    },
+    "QueryHelloResponse": {
+      "fields": {
+        "hello": 1
+      }
+    },
+    "World": {
+      "fields": {
+        "id": 1,
+        "name": 2
+      }
+    },
+    "LookupProductByIdRequestKey": {
+      "fields": {
+        "id": 1
+      }
+    },
+    "LookupProductByIdRequest": {
+      "fields": {
+        "keys": 1
+      }
+    },
+    "LookupProductByIdResponse": {
+      "fields": {
+        "result": 1
+      }
+    },
+    "QueryProductRequest": {
+      "fields": {
+        "id": 1
+      }
+    },
+    "QueryProduct": {
+      "fields": {
+        "id": 1
+      }
+    },
+    "QueryProductResponse": {
+      "fields": {
+        "product": 1
+      }
+    },
+    "Product": {
+      "fields": {
+        "id": 1,
+        "title": 2,
+        "description": 3,
+        "price": 4,
+        "category": 5
+      },
+      "reservedNumbers": [
+        6
+      ]
+    },
+    "Price": {
+      "fields": {
+        "currency": 1,
+        "amount": 2
+      }
+    }
+  },
+  "enums": {
+    "CURRENCY_CODE": {
+      "fields": {
+        "USD": 1,
+        "EUR": 2
+      }
+    },
+    "ProductCategory": {
+      "fields": {
+        "ALL": 1,
+        "GIFT_CARDS": 2,
+        "ELECTRONICS": 3,
+        "CAMERA_N_PHOTO": 4,
+        "VIDEO_GAMES": 5,
+        "BOOKS": 6,
+        "CLOTHING": 7
+      }
+    }
+  }
+}

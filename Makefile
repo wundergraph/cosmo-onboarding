@@ -18,6 +18,10 @@ docker-local:
 	@pnpm -r build-linux
 	docker build -f Dockerfile.local -t cosmo-demo-local .
 
+# Generates protobuf and client code
+generate:
+	@pnpm generate
+
 # Test all plugins
 test:
 	@pnpm test

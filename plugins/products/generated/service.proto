@@ -1,0 +1,93 @@
+syntax = "proto3";
+package service;
+
+option go_package = "github.com/wundergraph/cosmo/plugin";
+
+import "google/protobuf/wrappers.proto";
+
+// Service definition for ProductsService
+service ProductsService {
+  // Lookup Product entity by id: Entity describing a product
+  rpc LookupProductById(LookupProductByIdRequest) returns (LookupProductByIdResponse) {}
+  // Get a product using its id
+  rpc QueryProduct(QueryProductRequest) returns (QueryProductResponse) {}
+}
+
+// Key message for Product entity lookup
+message LookupProductByIdRequestKey {
+  // Key field for Product entity lookup.
+  string id = 1;
+}
+
+// Request message for Product entity lookup.
+message LookupProductByIdRequest {
+  /*
+   * List of keys to look up Product entities.
+   * Order matters - each key maps to one entity in LookupProductByIdResponse.
+   */
+  repeated LookupProductByIdRequestKey keys = 1;
+}
+
+// Response message for Product entity lookup.
+message LookupProductByIdResponse {
+  /*
+   * List of Product entities in the same order as the keys in LookupProductByIdRequest.
+   * Always return the same number of entities as keys. Use null for entities that cannot be found.
+   * 
+   * Example:
+   *   LookupUserByIdRequest:
+   *     keys:
+   *       - id: 1
+   *       - id: 2
+   *   LookupUserByIdResponse:
+   *     result:
+   *       - id: 1 # User with id 1 found
+   *       - null  # User with id 2 not found
+   */
+  repeated Product result = 1;
+}
+
+// Request message for product operation: Get a product using its id.
+message QueryProductRequest {
+  string id = 1;
+}
+// Response message for product operation: Get a product using its id.
+message QueryProductResponse {
+  // Get a product using its id
+  Product product = 1;
+}
+
+// Entity describing a product
+message Product {
+  reserved 6;
+  string id = 1;
+  string title = 2;
+  google.protobuf.StringValue description = 3;
+  Price price = 4;
+  ProductCategory category = 5;
+}
+
+// The code that specifies the denomination
+enum CURRENCY_CODE {
+  CURRENCY_CODE_UNSPECIFIED = 0;
+  CURRENCY_CODE_USD = 1;
+  CURRENCY_CODE_EUR = 2;
+}
+
+// Describes the price of a product
+message Price {
+  CURRENCY_CODE currency = 1;
+  double amount = 2;
+}
+
+// Specifies to which category the product belongs
+enum ProductCategory {
+  PRODUCT_CATEGORY_UNSPECIFIED = 0;
+  PRODUCT_CATEGORY_ALL = 1;
+  PRODUCT_CATEGORY_GIFT_CARDS = 2;
+  PRODUCT_CATEGORY_ELECTRONICS = 3;
+  PRODUCT_CATEGORY_CAMERA_N_PHOTO = 4;
+  PRODUCT_CATEGORY_VIDEO_GAMES = 5;
+  PRODUCT_CATEGORY_BOOKS = 6;
+  PRODUCT_CATEGORY_CLOTHING = 7;
+}

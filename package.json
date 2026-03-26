@@ -8,6 +8,7 @@
     "build": "pnpm -r build",
     "compose": "wgc router compose -i ./plugins/graph.yaml -o ./config.json",
     "format": "pnpm -r format",
+    "generate": "pnpm -r generate",
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
     "start": "pnpm build && pnpm compose && make docker-local && docker run --rm -p 3002:3002 cosmo-demo-local"

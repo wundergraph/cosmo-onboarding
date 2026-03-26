@@ -1,0 +1,135 @@
+{
+  "version": 1,
+  "service": "ProductsService",
+  "operationMappings": [
+    {
+      "type": "OPERATION_TYPE_QUERY",
+      "original": "product",
+      "mapped": "QueryProduct",
+      "request": "QueryProductRequest",
+      "response": "QueryProductResponse"
+    }
+  ],
+  "entityMappings": [
+    {
+      "typeName": "Product",
+      "kind": "entity",
+      "key": "id",
+      "rpc": "LookupProductById",
+      "request": "LookupProductByIdRequest",
+      "response": "LookupProductByIdResponse",
+      "requiredFieldMappings": []
+    }
+  ],
+  "typeFieldMappings": [
+    {
+      "type": "Query",
+      "fieldMappings": [
+        {
+          "original": "product",
+          "mapped": "product",
+          "argumentMappings": [
+            {
+              "original": "id",
+              "mapped": "id"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Price",
+      "fieldMappings": [
+        {
+          "original": "currency",
+          "mapped": "currency",
+          "argumentMappings": []
+        },
+        {
+          "original": "amount",
+          "mapped": "amount",
+          "argumentMappings": []
+        }
+      ]
+    },
+    {
+      "type": "Product",
+      "fieldMappings": [
+        {
+          "original": "id",
+          "mapped": "id",
+          "argumentMappings": []
+        },
+        {
+          "original": "title",
+          "mapped": "title",
+          "argumentMappings": []
+        },
+        {
+          "original": "description",
+          "mapped": "description",
+          "argumentMappings": []
+        },
+        {
+          "original": "price",
+          "mapped": "price",
+          "argumentMappings": []
+        },
+        {
+          "original": "category",
+          "mapped": "category",
+          "argumentMappings": []
+        }
+      ]
+    }
+  ],
+  "enumMappings": [
+    {
+      "type": "CURRENCY_CODE",
+      "values": [
+        {
+          "original": "USD",
+          "mapped": "CURRENCY_CODE_USD"
+        },
+        {
+          "original": "EUR",
+          "mapped": "CURRENCY_CODE_EUR"
+        }
+      ]
+    },
+    {
+      "type": "ProductCategory",
+      "values": [
+        {
+          "original": "ALL",
+          "mapped": "PRODUCT_CATEGORY_ALL"
+        },
+        {
+          "original": "GIFT_CARDS",
+          "mapped": "PRODUCT_CATEGORY_GIFT_CARDS"
+        },
+        {
+          "original": "ELECTRONICS",
+          "mapped": "PRODUCT_CATEGORY_ELECTRONICS"
+        },
+        {
+          "original": "CAMERA_N_PHOTO",
+          "mapped": "PRODUCT_CATEGORY_CAMERA_N_PHOTO"
+        },
+        {
+          "original": "VIDEO_GAMES",
+          "mapped": "PRODUCT_CATEGORY_VIDEO_GAMES"
+        },
+        {
+          "original": "BOOKS",
+          "mapped": "PRODUCT_CATEGORY_BOOKS"
+        },
+        {
+          "original": "CLOTHING",
+          "mapped": "PRODUCT_CATEGORY_CLOTHING"
+        }
+      ]
+    }
+  ],
+  "resolveMappings": []
+}

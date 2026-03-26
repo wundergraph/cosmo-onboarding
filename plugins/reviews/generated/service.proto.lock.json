@@ -1,0 +1,84 @@
+{
+  "version": "1.0.0",
+  "messages": {
+    "Query": {
+      "fields": {
+        "review": 2
+      },
+      "reservedNumbers": [
+        1
+      ]
+    },
+    "QueryHelloRequest": {
+      "fields": {
+        "name": 1
+      }
+    },
+    "QueryHello": {
+      "fields": {
+        "name": 1
+      }
+    },
+    "QueryHelloResponse": {
+      "fields": {
+        "hello": 1
+      }
+    },
+    "World": {
+      "fields": {
+        "id": 1,
+        "name": 2
+      }
+    },
+    "LookupProductByIdRequestKey": {
+      "fields": {
+        "id": 1
+      }
+    },
+    "LookupProductByIdRequest": {
+      "fields": {
+        "keys": 1
+      }
+    },
+    "LookupProductByIdResponse": {
+      "fields": {
+        "result": 1
+      }
+    },
+    "QueryReviewRequest": {
+      "fields": {
+        "id": 1
+      }
+    },
+    "QueryReview": {
+      "fields": {
+        "id": 1
+      }
+    },
+    "QueryReviewResponse": {
+      "fields": {
+        "review": 1
+      }
+    },
+    "Product": {
+      "fields": {
+        "id": 1,
+        "reviews": 2
+      },
+      "reservedNumbers": [
+        3
+      ]
+    },
+    "Review": {
+      "fields": {
+        "id": 1,
+        "author": 2,
+        "email": 3,
+        "createdOn": 4,
+        "contents": 5,
+        "rating": 6
+      }
+    }
+  },
+  "enums": {}
+}

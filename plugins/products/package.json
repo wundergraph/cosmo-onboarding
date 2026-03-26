@@ -7,6 +7,7 @@
     "build": "wgc router plugin build . --debug",
     "build-linux": "CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o bin/linux_arm64 ./src",
     "format": "gofmt -w ./src",
+    "generate": "wgc router plugin generate .",
     "lint": "golangci-lint run ./...",
     "test": "wgc router plugin test ."
   },

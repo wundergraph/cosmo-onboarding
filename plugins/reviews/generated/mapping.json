@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "service": "ReviewsService",
+  "operationMappings": [
+    {
+      "type": "OPERATION_TYPE_QUERY",
+      "original": "review",
+      "mapped": "QueryReview",
+      "request": "QueryReviewRequest",
+      "response": "QueryReviewResponse"
+    }
+  ],
+  "entityMappings": [
+    {
+      "typeName": "Product",
+      "kind": "entity",
+      "key": "id",
+      "rpc": "LookupProductById",
+      "request": "LookupProductByIdRequest",
+      "response": "LookupProductByIdResponse",
+      "requiredFieldMappings": []
+    }
+  ],
+  "typeFieldMappings": [
+    {
+      "type": "Query",
+      "fieldMappings": [
+        {
+          "original": "review",
+          "mapped": "review",
+          "argumentMappings": [
+            {
+              "original": "id",
+              "mapped": "id"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Review",
+      "fieldMappings": [
+        {
+          "original": "id",
+          "mapped": "id",
+          "argumentMappings": []
+        },
+        {
+          "original": "author",
+          "mapped": "author",
+          "argumentMappings": []
+        },
+        {
+          "original": "email",
+          "mapped": "email",
+          "argumentMappings": []
+        },
+        {
+          "original": "createdOn",
+          "mapped": "created_on",
+          "argumentMappings": []
+        },
+        {
+          "original": "contents",
+          "mapped": "contents",
+          "argumentMappings": []
+        },
+        {
+          "original": "rating",
+          "mapped": "rating",
+          "argumentMappings": []
+        }
+      ]
+    },
+    {
+      "type": "Product",
+      "fieldMappings": [
+        {
+          "original": "id",
+          "mapped": "id",
+          "argumentMappings": []
+        },
+        {
+          "original": "reviews",
+          "mapped": "reviews",
+          "argumentMappings": []
+        }
+      ]
+    }
+  ],
+  "enumMappings": [],
+  "resolveMappings": []
+}

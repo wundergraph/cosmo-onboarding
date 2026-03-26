@@ -1,0 +1,82 @@
+syntax = "proto3";
+package service;
+
+option go_package = "github.com/wundergraph/cosmo/plugin";
+
+import "google/protobuf/wrappers.proto";
+
+// Service definition for ReviewsService
+service ReviewsService {
+  // Lookup Product entity by id: Entity describing a product with reviews
+  rpc LookupProductById(LookupProductByIdRequest) returns (LookupProductByIdResponse) {}
+  // Get a review by its id
+  rpc QueryReview(QueryReviewRequest) returns (QueryReviewResponse) {}
+}
+
+// Wrapper message for a list of Review.
+message ListOfReview {
+  message List {
+    repeated Review items = 1;
+  }
+  List list = 1;
+}
+// Key message for Product entity lookup
+message LookupProductByIdRequestKey {
+  // Key field for Product entity lookup.
+  string id = 1;
+}
+
+// Request message for Product entity lookup.
+message LookupProductByIdRequest {
+  /*
+   * List of keys to look up Product entities.
+   * Order matters - each key maps to one entity in LookupProductByIdResponse.
+   */
+  repeated LookupProductByIdRequestKey keys = 1;
+}
+
+// Response message for Product entity lookup.
+message LookupProductByIdResponse {
+  /*
+   * List of Product entities in the same order as the keys in LookupProductByIdRequest.
+   * Always return the same number of entities as keys. Use null for entities that cannot be found.
+   * 
+   * Example:
+   *   LookupUserByIdRequest:
+   *     keys:
+   *       - id: 1
+   *       - id: 2
+   *   LookupUserByIdResponse:
+   *     result:
+   *       - id: 1 # User with id 1 found
+   *       - null  # User with id 2 not found
+   */
+  repeated Product result = 1;
+}
+
+// Request message for review operation: Get a review by its id.
+message QueryReviewRequest {
+  string id = 1;
+}
+// Response message for review operation: Get a review by its id.
+message QueryReviewResponse {
+  // Get a review by its id
+  Review review = 1;
+}
+
+// Entity describing a product with reviews
+message Product {
+  reserved 3;
+  string id = 1;
+  ListOfReview reviews = 2;
+}
+
+// Review entity
+message Review {
+  string id = 1;
+  string author = 2;
+  string email = 3;
+  int32 created_on = 4;
+  google.protobuf.StringValue contents = 5;
+  int32 rating = 6;
+}

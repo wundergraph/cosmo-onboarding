@@ -17,3 +17,22 @@ jobs:
        - uses: actions/checkout@v6
        - uses: ./.github/actions/setup
        - run: make build-ci
+  lint_and_format:
+    name: Lint & Format
+    runs-on: ubuntu-latest
+    steps:
+       - uses: actions/checkout@v6
+       - uses: ./.github/actions/setup
+       - name: golangci-lint
+         uses: golangci/golangci-lint-action@v9
+         with:
+           version: v2.11.3
+           install-only: true
+       - run: make lint-ci
+       - run: make format
+       - name: Check dirty files
+         id: check-dirty
+         run: git diff --no-ext-diff --exit-code
+       - name: Dirty files message
+         if: failure() && steps.check-dirty.outcome == 'failure'
+         run: echo "::error::Uncommitted changes detected. Run 'make format' locally."

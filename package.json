@@ -11,6 +11,7 @@
     "format": "pnpm -r format",
     "generate": "pnpm -r generate",
     "lint": "pnpm -r lint",
+    "lint:ci": "pnpm -r lint:ci",
     "test": "pnpm -r test",
     "start": "pnpm build && pnpm compose && make docker-local && docker run --rm -p 3002:3002 cosmo-demo-local"
   },

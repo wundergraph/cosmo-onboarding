@@ -1,4 +1,4 @@
-.PHONY: build compose docker format lint
+.PHONY: build compose docker format lint lint-ci
 
 make: build
 
@@ -40,3 +40,7 @@ format:
 # Lint Go source in all plugins
 lint:
 	@pnpm -r lint
+
+# Lint Go source in all plugins (CI, allows parallel runners)
+lint-ci:
+	@pnpm lint:ci

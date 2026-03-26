@@ -10,6 +10,7 @@
     "format": "gofmt -w ./src",
     "generate": "wgc router plugin generate .",
     "lint": "golangci-lint run ./...",
+    "lint:ci": "golangci-lint run --allow-parallel-runners ./...",
     "test": "wgc router plugin test ."
   },
   "keywords": [],

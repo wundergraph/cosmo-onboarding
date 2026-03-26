@@ -6,6 +6,10 @@ make: build
 build:
 	@pnpm build
 
+# Runs build for CI (serial mode)
+build-ci:
+	@pnpm build:ci
+
 # Generate router execution config (required before building Docker image or running the router)
 # Usage: make compose
 compose:

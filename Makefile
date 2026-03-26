@@ -12,18 +12,10 @@ compose:
 	@pnpm compose
 
 # Build linux plugin binary + Docker image (run `make compose` first if config.json is missing)
-# Usage: make docker
-docker:
-	@$(MAKE) -C plugins/products build-linux
-	@$(MAKE) -C plugins/reviews build-linux
-	docker build -t cosmo-demo .
-
-# Build linux plugin binary + Docker image (run `make compose` first if config.json is missing)
 # for local development
 # Usage: make docker-local
 docker-local:
-	@$(MAKE) -C plugins/products build-linux
-	@$(MAKE) -C plugins/reviews build-linux
+	@pnpm -r build-linux
 	docker build -f Dockerfile.local -t cosmo-demo-local .
 
 # Test all plugins
@@ -35,10 +27,8 @@ start:
 
 # Format Go source in all plugins
 format:
-	@$(MAKE) -C plugins/products format
-	@$(MAKE) -C plugins/reviews format
+	@pnpm -r format
 
 # Lint Go source in all plugins
 lint:
-	@$(MAKE) -C plugins/products lint
-	@$(MAKE) -C plugins/reviews lint
+	@pnpm -r lint

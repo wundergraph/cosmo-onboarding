@@ -19,5 +19,8 @@ type Product @key(fields: "id") {
 }
 
 type Query {
+  """
+  Get a review by its id
+  """
   review(id: ID!): Review
 }

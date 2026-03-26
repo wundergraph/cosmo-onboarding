@@ -1,5 +1,15 @@
 name: "Setup environment"
 description: "This action install node, pnpm & Go toolchain"
+inputs:
+  setup-go:
+    # TODO: wgc router plugin build downloads its own Go toolchain (1.24.x) and uses it
+    # for compilation. When actions/setup-go runs first it sets GOTOOLCHAIN=local, which
+    # prevents that downloaded Go from auto-upgrading to satisfy go.mod's go directive,
+    # causing the build to fail. Disable setup-go for jobs that rely on wgc's toolchain
+    # management until wgc supports using the system Go or exposes a flag for it.
+    description: "Whether to install the Go toolchain"
+    default: "false"
+    required: false
 
 runs:
   using: "composite"
@@ -31,6 +41,7 @@ runs:
       run: pnpm install
 
     - uses: actions/setup-go@v6.3.0
+      if: ${{ inputs.setup-go == 'true' }}
       with:
         go-version: 1.25.1
         cache-dependency-path: '**/go.sum'

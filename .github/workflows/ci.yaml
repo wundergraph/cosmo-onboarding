@@ -23,6 +23,8 @@ jobs:
     steps:
        - uses: actions/checkout@v6.0.2
        - uses: ./.github/actions/setup
+         with:
+           setup-go: "true"
        - name: golangci-lint
          uses: golangci/golangci-lint-action@v9.2.0
          with:
@@ -42,4 +44,6 @@ jobs:
     steps:
        - uses: actions/checkout@v6.0.2
        - uses: ./.github/actions/setup
+         with:
+           setup-go: "true"
        - run: make test-ci

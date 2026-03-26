@@ -26,5 +26,9 @@ docker-local:
 	@$(MAKE) -C plugins/reviews build-linux
 	docker build -f Dockerfile.local -t cosmo-demo-local .
 
+# Test all plugins
+test:
+	@pnpm test
+
 start:
 	@pnpm start

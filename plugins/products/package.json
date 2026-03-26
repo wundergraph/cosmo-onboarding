@@ -5,7 +5,7 @@
   "description": "Example Cosmo plugin application for products subgraph",
   "scripts": {
     "build": "wgc router plugin build . --debug",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "wgc router plugin test ."
   },
   "keywords": [],
   "author": "",

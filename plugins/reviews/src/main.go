@@ -67,6 +67,20 @@ func (s *ReviewsService) LookupProductById(ctx context.Context, req *service.Loo
 	return &service.LookupProductByIdResponse{Result: result}, nil
 }
 
+// calculateAverageRating computes the average rating from a slice of reviews.
+// TODO: populate Product.AverageRating in LookupProductById once averageRating field is added to Product type.
+//nolint:unused
+func calculateAverageRating(reviews []*service.Review) float64 {
+	if len(reviews) == 0 {
+		return 0
+	}
+	var sum float64
+	for _, r := range reviews {
+		sum += float64(r.Rating)
+	}
+	return sum / float64(len(reviews))
+}
+
 var fixtures = []service.Review{
 	{
 		Id:        "review-1",

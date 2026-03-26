@@ -47,3 +47,12 @@ jobs:
          with:
            setup-go: "true"
        - run: make test-ci
+  subgraphs-check:
+    name: Check GraphQL schemas
+    runs-on: ubuntu-latest
+    env:
+      COSMO_API_KEY: ${{ secrets.COSMO_API_KEY }}
+    steps:
+       - uses: actions/checkout@v6.0.2
+       - uses: ./.github/actions/setup
+       - run: make check-subgraphs

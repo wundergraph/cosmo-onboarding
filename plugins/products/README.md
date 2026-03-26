@@ -10,11 +10,14 @@ This demo illustrates a key pattern in Cosmo gRPC service development:
 - **Bridge the gap**: The Cosmo router connects GraphQL operations to your gRPC implementations
 - **Test-Driven Development**: Test your gRPC service implementation with gRPC client and server without external dependencies
 
+The `products` subgraph is one of two subgraphs that make up the federated graph. It owns the `Product` entity and exposes a `product(id: ID!)` query. Products have pricing information and belong to a category. The `reviews` subgraph extends `Product` with a `reviews` field, joining the two subgraphs via the `id` key.
+
 The plugin demonstrates:
 - How GraphQL types and operations map to gRPC service methods
-- Simple "Hello World" implementation
 - Proper structure for a Cosmo gRPC service plugin
 - How to test your gRPC service implementation with gRPC client and server without external dependencies
+- `QueryProduct` — resolves a single product by ID
+- `LookupProductById` — entity lookup used by the router for federation joins
 
 ## Getting Started
 

@@ -1,149 +1,119 @@
 package main
 
 import (
-  "context"
-  "net"
-  "testing"
+	"context"
+	"net"
+	"testing"
 
-  "github.com/stretchr/testify/assert"
-  "github.com/stretchr/testify/require"
-  service "github.com/wundergraph/cosmo/plugin/generated"
-  "google.golang.org/grpc"
-  "google.golang.org/grpc/credentials/insecure"
-  "google.golang.org/grpc/test/bufconn"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+	service "github.com/wundergraph/cosmo/plugin/generated"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/test/bufconn"
 )
 
 const bufSize = 1024 * 1024
 
-// testService is a wrapper that holds the gRPC test components
 type testService struct {
-  grpcConn  *grpc.ClientConn
-  client service.ProductsServiceClient
-  cleanup   func()
+	grpcConn *grpc.ClientConn
+	client   service.ProductsServiceClient
+	cleanup  func()
 }
 
-// setupTestService creates a local gRPC server for testing
-func setupTestService(t *testing.T) *testService {
-  // Create a buffer for gRPC connections
-  lis := bufconn.Listen(bufSize)
+func setupTestService(t *testing.T, products []service.Product) *testService {
+	lis := bufconn.Listen(bufSize)
+	grpcServer := grpc.NewServer()
+	service.RegisterProductsServiceServer(grpcServer, &ProductsService{products: products})
 
-  // Create a new gRPC server
-  grpcServer := grpc.NewServer()
+	go func() {
+		if err := grpcServer.Serve(lis); err != nil {
+			t.Fatalf("failed to serve: %v", err)
+		}
+	}()
 
-  // Register our service
-  service.RegisterProductsServiceServer(grpcServer, &ProductsService{
-    nextID: 1,
-  })
+	dialer := func(context.Context, string) (net.Conn, error) {
+		return lis.Dial()
+	}
+	conn, err := grpc.Dial(
+		"passthrough:///bufnet",
+		grpc.WithContextDialer(dialer),
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+	)
+	require.NoError(t, err)
 
-  // Start the server
-  go func() {
-    if err := grpcServer.Serve(lis); err != nil {
-      t.Fatalf("failed to serve: %v", err)
-    }
-  }()
-
-  // Create a client connection
-  dialer := func(context.Context, string) (net.Conn, error) {
-    return lis.Dial()
-  }
-  conn, err := grpc.Dial(
-    "passthrough:///bufnet",
-    grpc.WithContextDialer(dialer),
-    grpc.WithTransportCredentials(insecure.NewCredentials()),
-  )
-  require.NoError(t, err)
-
-  // Create the service client
-  client := service.NewProductsServiceClient(conn)
-
-  // Return cleanup function
-  cleanup := func() {
-    conn.Close()
-    grpcServer.Stop()
-  }
-
-  return &testService{
-    grpcConn:  conn,
-    client: client,
-    cleanup:   cleanup,
-  }
+	return &testService{
+		grpcConn: conn,
+		client:   service.NewProductsServiceClient(conn),
+		cleanup: func() {
+			conn.Close()
+			grpcServer.Stop()
+		},
+	}
 }
 
-func TestQueryHello(t *testing.T) {
-  // Set up basic service
-  svc := setupTestService(t)
-  defer svc.cleanup()
-
-  tests := []struct {
-    name     string
-    userName string
-    wantId   string
-    wantName string
-    wantErr  bool
-  }{
-    {
-      name:     "valid hello",
-      userName: "Alice",
-      wantId:   "1",
-      wantName: "Alice",
-      wantErr:  false,
-    },
-    {
-      name:     "empty name",
-      userName: "",
-      wantId:   "2",
-      wantName: "", // Empty name should be preserved
-      wantErr:  false,
-    },
-    {
-      name:     "special characters",
-      userName: "John & Jane",
-      wantId:   "3",
-      wantName: "John & Jane",
-      wantErr:  false,
-    },
-  }
-
-  for _, tt := range tests {
-    t.Run(tt.name, func(t *testing.T) {
-      req := &service.QueryHelloRequest{
-        Name: tt.userName,
-      }
-
-      resp, err := svc.client.QueryHello(context.Background(), req)
-      if tt.wantErr {
-        assert.Error(t, err)
-        return
-      }
-
-      assert.NoError(t, err)
-      assert.NotNil(t, resp.Hello)
-      assert.Equal(t, tt.wantId, resp.Hello.Id)
-      assert.Equal(t, tt.wantName, resp.Hello.Name)
-    })
-  }
+var testProducts = []service.Product{
+	{
+		Id:       "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+		Title:    "Test Product A",
+		Price:    &service.Price{Amount: 10.00, Currency: *service.CURRENCY_CODE_CURRENCY_CODE_EUR.Enum()},
+		Category: *service.ProductCategory_PRODUCT_CATEGORY_BOOKS.Enum(),
+	},
+	{
+		Id:       "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+		Title:    "Test Product B",
+		Price:    &service.Price{Amount: 20.00, Currency: *service.CURRENCY_CODE_CURRENCY_CODE_USD.Enum()},
+		Category: *service.ProductCategory_PRODUCT_CATEGORY_ELECTRONICS.Enum(),
+	},
+	{
+		Id:       "1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed",
+		Title:    "Test Product C",
+		Price:    &service.Price{Amount: 30.00, Currency: *service.CURRENCY_CODE_CURRENCY_CODE_USD.Enum()},
+		Category: *service.ProductCategory_PRODUCT_CATEGORY_CLOTHING.Enum(),
+	},
 }
 
-func TestSequentialIDs(t *testing.T) {
-  // Set up basic service
-  svc := setupTestService(t)
-  defer svc.cleanup()
+func TestQueryProduct(t *testing.T) {
+	svc := setupTestService(t, testProducts)
+	defer svc.cleanup()
 
-  // The first request should get ID "1"
-  firstReq := &service.QueryHelloRequest{Name: "First"}
-  firstResp, err := svc.client.QueryHello(context.Background(), firstReq)
-  require.NoError(t, err)
-  assert.Equal(t, "1", firstResp.Hello.Id)
+	tests := []struct {
+		name    string
+		id      string
+		wantId  string
+		wantNil bool
+	}{
+		{name: "returns product A", id: "f47ac10b-58cc-4372-a567-0e02b2c3d479", wantId: "f47ac10b-58cc-4372-a567-0e02b2c3d479"},
+		{name: "returns product B", id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d", wantId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"},
+		{name: "returns product C", id: "1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed", wantId: "1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed"},
+		{name: "unknown id returns nil product", id: "00000000-0000-0000-0000-000000000000", wantNil: true},
+	}
 
-  // The second request should get ID "2"
-  secondReq := &service.QueryHelloRequest{Name: "Second"}
-  secondResp, err := svc.client.QueryHello(context.Background(), secondReq)
-  require.NoError(t, err)
-  assert.Equal(t, "2", secondResp.Hello.Id)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resp, err := svc.client.QueryProduct(context.Background(), &service.QueryProductRequest{Id: tt.id})
+			require.NoError(t, err)
+			if tt.wantNil {
+				assert.Nil(t, resp.Product)
+			} else {
+				require.NotNil(t, resp.Product)
+				assert.Equal(t, tt.wantId, resp.Product.Id)
+			}
+		})
+	}
+}
 
-  // The third request should get ID "3"
-  thirdReq := &service.QueryHelloRequest{Name: "Third"}
-  thirdResp, err := svc.client.QueryHello(context.Background(), thirdReq)
-  require.NoError(t, err)
-  assert.Equal(t, "3", thirdResp.Hello.Id)
+func TestQueryProductInjectedFixtures(t *testing.T) {
+	single := []service.Product{testProducts[0]}
+	svc := setupTestService(t, single)
+	defer svc.cleanup()
+
+	resp, err := svc.client.QueryProduct(context.Background(), &service.QueryProductRequest{Id: "f47ac10b-58cc-4372-a567-0e02b2c3d479"})
+	require.NoError(t, err)
+	require.NotNil(t, resp.Product)
+	assert.Equal(t, "f47ac10b-58cc-4372-a567-0e02b2c3d479", resp.Product.Id)
+
+	resp2, err := svc.client.QueryProduct(context.Background(), &service.QueryProductRequest{Id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"})
+	require.NoError(t, err)
+	assert.Nil(t, resp2.Product)
 }

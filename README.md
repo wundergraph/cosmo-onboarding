@@ -51,7 +51,7 @@ Run `wgc demo` and make sure you are logged in to your Cosmo Cloud account. Foll
 ### Implementing `averageRating` field
 
 1. Fork this repo.
-2. Add `ROUTER_TOKEN` to your CI secrets (TBD - Github workflow)
+2. Create a secret named `COSMO_API_KEY` for your forked repo with your private API key ([Studio API Keys documentation](https://cosmo-docs.wundergraph.com/studio/api-keys)).
 3. In `plugins/reviews/src/schema.graphql` expand the schema file:
 
 ```diff

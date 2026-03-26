@@ -40,8 +40,8 @@ The root query exposes `product(id: ID!): Product` and `review(id: ID!): Review`
 <details>
     <summary>⚙️How does it work under the hood?</summary>
 
-    The `demo` command fetches the `plugins/` folder during its setup phase. The command then publishes these plugins to [Cosmo Cloud Plugin Registry](https://cosmo-docs.wundergraph.com/router/gRPC/plugins#cosmo-cloud-plugin-registry). By publishing the plugins, the subgraphs are created into a pre-defined federated graph.
-    The command will run the official Cosmo Router docker image which is connected to the registry and it will pull down these published plugins and run them, so the queries can be resolved with mocked data.
+The `demo` command fetches the `plugins/` folder during its setup phase. The command then publishes these plugins to [Cosmo Cloud Plugin Registry](https://cosmo-docs.wundergraph.com/router/gRPC/plugins#cosmo-cloud-plugin-registry). By publishing the plugins, the subgraphs are created into a pre-defined federated graph.
+The command will run the official Cosmo Router docker image which is connected to the registry and it will pull down these published plugins and run them, so the queries can be resolved with mocked data.
 </details>
 
 ## Quickstart

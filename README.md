@@ -141,3 +141,19 @@ Other useful `make` targets:
 * `make build` - build the plugins and router configuration
 * `make compose` - generate the router execution config
 * `make docker-local` - build a development version of the Docker image
+
+### Sample router deployment
+
+#### fly.io
+
+We provide [fly.io](https://fly.io/) compatible template to deploy a sample router with plugins enabled.
+
+Follow documentation to set up Fly. Make sure to create an application `<application-name>` first.
+
+You will need to add secrets `GRAPH_API_TOKEN` to your secrets in Fly. The token is obtained via [`wgc router token create`](https://cosmo-docs.wundergraph.com/cli/router/token/create) command.
+
+After the setup, run:
+
+```shell
+fly deploy -a <application-name> -c cosmo-onboarding-router.fly.toml --image ghcr.io/wundergraph/cosmo/router:latest
+```

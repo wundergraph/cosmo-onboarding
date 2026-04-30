@@ -52,6 +52,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       COSMO_API_KEY: ${{ secrets.COSMO_API_KEY }}
+      REVIEWS_SUBGRAPH_NAME: ${{ vars.REVIEWS_SUBGRAPH_NAME }}
+      PRODUCTS_SUBGRAPH_NAME: ${{ vars.PRODUCTS_SUBGRAPH_NAME }}
     steps:
        - uses: actions/checkout@v6.0.2
        - uses: ./.github/actions/setup

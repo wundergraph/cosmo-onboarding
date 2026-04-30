@@ -17,7 +17,7 @@
     "test": "pnpm -r test",
     "test:ci": "pnpm -r --workspace-concurrency=1 test:ci",
     "start": "pnpm build && pnpm compose && make docker-local && docker run --rm -p 3002:3002 cosmo-demo-local",
-    "subgraphs:check": "pnpm -r subgraph:check",
+    "subgraphs:check": "pnpm -r subgraph:check"
   },
   "keywords": [],
   "author": "",

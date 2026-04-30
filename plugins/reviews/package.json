@@ -11,6 +11,8 @@
     "generate": "wgc router plugin generate .",
     "lint": "golangci-lint run ./...",
     "lint:ci": "golangci-lint run --allow-parallel-runners ./...",
+    "publish:ci": "wgc router plugin publish --namespace default --label graph=demo --fail-on-composition-error .",
+    "subgraph:check": "wgc subgraph check reviews --namespace default --label graph=demo --schema ./src/schema.graphql",
     "test": "wgc router plugin test .",
     "test:ci": "wgc router plugin test . --yes"
   },
